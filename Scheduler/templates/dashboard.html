@@ -1,0 +1,29 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+    <h1>Dashboard <small>Welcome {{session.username}}</small></h1>
+    <a class="btn btn-success" href="/add_announcement">Create Announcement</a>
+    <hr>
+    <table class="table table-striped">
+        <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Date</th>
+            <th></th>
+            <th></th>
+
+        </tr>
+        {% for announcement in announcements %} 
+            <tr>
+                <td>{{announcement.id}}</td>
+                <td>{{announcement.title}}</td>
+                <td>{{announcement.author}}</td>
+                <td>{{announcement.create_date}}</td>
+                <td><a href="edit_announcement/{{announcement.id}}" class="btn btn-default pull-right">Edit</a></td>
+                <td><a href="delete_announcement/{{announcement.id}}" class="btn btn-danger pull-right">Delete</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+
+{% endblock %}
