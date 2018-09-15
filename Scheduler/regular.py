@@ -24,7 +24,7 @@ def about():
 def register():
     form = RegisterForm(request.form)
   
-    if request.method == 'POST':
+    if form.validate_on_submit():
         check1 = form.password.data
         check2 = form.confirmpassword.data
         if check1 == check2:
@@ -36,15 +36,15 @@ def register():
         else:
             flash('Passwords do not match.', 'danger')
             return redirect(url_for('regular.register'))
-    elif request.method == 'GET':
+    else:
         return render_template('register.html', form=form)
 
 @regular.route('/login', methods=['GET', 'POST'])
 def login():
-    form = SigninForm()
+    form = SigninForm(request.form)
   
-    if request.method == 'POST':
-        user = User.query.filter(form.email.data.lower()).first()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data.lower()).first()
         if user and user.check_password(form.password.data):
             login_user(user,remember=True)
             flash('You have been logged in', 'success')
@@ -57,7 +57,7 @@ def login():
             flash('Invalid Email or Password', 'danger')
             return render_template('login.html', form=form)
                  
-    elif request.method == 'GET':
+    else:
         return render_template('login.html', form=form)
 
 

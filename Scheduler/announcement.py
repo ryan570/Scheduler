@@ -41,7 +41,7 @@ def view_announcement(id):
 @login_required
 def add_announcement():
     form = AnnouncementForm(request.form)
-    if request.method == 'POST':
+    if form.validate_on_submit():
         create_announcement(form.title.data, session['username'], form.body.data)
         flash('Announcement created!', 'success')
         return redirect(url_for('regular.dashboard'))
@@ -55,7 +55,7 @@ def edit_announcement(id):
     form.title.data = announcement.title
     form.body.data = announcement.body
 
-    if request.method == 'POST':
+    if form.validate_on_submit():
         delete_announcement(announcement.id)
         title = request.form['title']
         body = request.form['body']
