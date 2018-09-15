@@ -2,9 +2,19 @@
 
 {% block body %}
     <h1>Announcements</h1>
-    <ul class="list-group">
-    {% for announcement in announcements %}
-        <li class="list-group-item"><a href="announcement/{{announcement.id}}/">{{announcement.title}}</a></li>
-    {% endfor %}
-    </ul>
+    <hr>
+    <table class="table table-striped">
+        <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Date</th>
+        </tr>
+            {% for announcement in announcements %}
+            <tr>
+                <td><a href="announcement/{{announcement.id}}/">{{announcement.title}}</a></td>
+                <td>{{announcement.author}}</td>
+                <td>{{announcement.create_date}}</td>
+            </tr>
+            {% endfor %}
+    </table>
 {% endblock %}
