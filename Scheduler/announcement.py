@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, flash, session, redirect, url
 from flask_login import login_required, login_user, logout_user, current_user
 from Scheduler.model import db, Announcement
 from Scheduler.forms import AnnouncementForm
+from Scheduler.decorators import admin_required
 from sqlalchemy import func
 from sqlalchemy import and_
 import datetime
@@ -9,7 +10,6 @@ import calendar
 import sys
 
 announcement = Blueprint('announcement', __name__, template_folder='templates')
-
 
 def create_announcement(title, author, body):
     newAnnouncement = Announcement(title, author, body)
@@ -38,7 +38,7 @@ def view_announcement(id):
     return render_template('announcement.html', announcement=announcement)
 
 @announcement.route('/add_announcement', methods=['GET', 'POST'])
-@login_required
+@admin_required
 def add_announcement():
     form = AnnouncementForm(request.form)
     if form.validate_on_submit():
@@ -48,7 +48,7 @@ def add_announcement():
     return render_template('add_announcement.html', form=form)
 
 @announcement.route('/edit_announcement/<string:id>/', methods=['GET', 'POST'])
-@login_required
+@admin_required
 def edit_announcement(id):
     announcement = Announcement.query.filter_by(id=id).first()
     form = AnnouncementForm(request.form)
@@ -68,7 +68,7 @@ def edit_announcement(id):
     return render_template('edit_announcement.html', form=form)
 
 @announcement.route('/delete_announcement/<string:id>/')
-@login_required
+@admin_required
 def delete_route(id):
     delete_announcement(id)
     flash('Announcement Deleted!', 'success')

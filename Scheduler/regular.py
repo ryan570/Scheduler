@@ -4,6 +4,7 @@ from Scheduler.forms import RegisterForm, SigninForm, AnnouncementForm
 from Scheduler.model import db, User, Announcement
 from Scheduler.user import create_user
 from Scheduler.announcement import create_announcement
+from Scheduler.decorators import admin_required
 from flask_login import login_required, login_user, logout_user, current_user
 import datetime
 import bcrypt
@@ -28,11 +29,15 @@ def register():
         check1 = form.password.data
         check2 = form.confirmpassword.data
         if check1 == check2:
-            user = create_user(form.firstname.data, form.lastname.data, form.grade.data, form.email.data, form.password.data)
-            login_user(user,remember=True)
-            session['logged_in'] = True
-            session['username'] = form.firstname.data + " " + form.lastname.data
-            return render_template('home.html')
+            if User.query.filter_by(email=form.email.data).first():
+                flash('That email is already linked to an account', 'danger')
+                return redirect(url_for('regular.register'))
+            else:
+                user = create_user(form.firstname.data, form.lastname.data, form.grade.data, form.email.data, form.password.data)
+                login_user(user,remember=True)
+                session['logged_in'] = True
+                session['username'] = form.firstname.data + " " + form.lastname.data
+                return render_template('home.html')
         else:
             flash('Passwords do not match.', 'danger')
             return redirect(url_for('regular.register'))
@@ -70,7 +75,7 @@ def logout():
     return redirect(url_for('regular.home'))
 
 @regular.route('/dashboard')
-@login_required
+@admin_required
 def dashboard():
     announcements = Announcement.query.all()
     list.reverse(announcements)
