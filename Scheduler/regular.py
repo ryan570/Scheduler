@@ -5,8 +5,9 @@ from Scheduler.model import db, User, Announcement
 from Scheduler.user import create_user
 from Scheduler.announcement import create_announcement
 from Scheduler.decorators import admin_required
+from Scheduler.calendargenerator import createCalendar, monthString, customMonth
 from flask_login import login_required, login_user, logout_user, current_user
-import datetime
+from datetime import datetime
 import bcrypt
 import json
 import os
@@ -15,7 +16,25 @@ regular = Blueprint('regular', __name__, template_folder='templates')
 
 @regular.route('/')
 def home():
-    return render_template('home.html')
+    calendar = createCalendar()
+    month = monthString(datetime.now().month)
+    return render_template('calendar.html', calendar=calendar, month=month, year=datetime.now().year, next=str(datetime.now().month + 1), prev=str(datetime.now().month - 1))
+
+@regular.route('/month/<month>/')
+def specificMonth(month):
+    year = datetime.now().year
+    month = int(month)
+    next = month + 1
+    prev = month - 1
+    while month > 12:
+        month -= 12
+        year += 1
+    while month < 1:
+        month += 12
+        year -= 1
+    calendar = customMonth(month, year)
+    monthName = monthString(month)
+    return render_template('calendar.html', calendar=calendar, month=monthName, year=year, next=next, prev=prev)
 
 @regular.route('/about')
 def about():

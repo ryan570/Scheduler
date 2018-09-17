@@ -1,0 +1,124 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<style type="text/css">
+div.title {
+    font: x-large Verdana, Arial, Helvetica, sans-serif;
+    text-align: center;
+    height: 40px;
+    background-color: white;
+    color: black;
+    }
+table {
+    font: 100% Verdana, Arial, Helvetica, sans-serif;
+    table-layout: fixed;
+    border-collapse: collapse;
+    width: 100%;
+    }
+th {
+    padding: 0 0.5em;
+    height: 50px;
+    text-align: center;
+    background-color:dodgerblue;
+    color:black;
+    }
+td  {     
+    font-size: medium;
+    padding: 0.25em 0.25em;   
+    width: 14%; 
+    height: 80px;
+    text-align: left;
+    vertical-align: top;
+    }
+.date  {     
+    font-size: large;
+    padding: 0.25em 0.25em;   
+    text-align: left;
+    vertical-align: top;
+    }
+a {
+    text-decoration: none;
+    display: inline-block;
+    padding: 8px 16px;
+}
+
+a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+.previous {
+    background-color: #f1f1f1;
+    color: black;
+}
+
+.next {
+    background-color: #4CAF50;
+    color: white;
+}
+
+</style>
+<a href="/month/{{prev}}/" class="previous">&laquo; Previous</a>
+<a href="/month/{{next}}" class="next pull-right">Next &raquo;</a>
+<div class="title">{{month}} {{year}}</div>
+<table border="1">
+<tr><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr>
+<tr>
+    <td><span class="date">{{calendar[0][0]}}</span></td>
+    <td><span class="date">{{calendar[0][1]}}</span></td>
+    <td><span class="date">{{calendar[0][2]}}</span></td>
+    <td><span class="date">{{calendar[0][3]}}</span></td>
+    <td><span class="date">{{calendar[0][4]}}</span></td>
+    <td><span class="date">{{calendar[0][5]}}</span></td>
+    <td><span class="date">{{calendar[0][6]}}</span></td>
+</tr>
+<tr>
+    <td><span class="date">{{calendar[1][0]}}</span></td>
+    <td><span class="date">{{calendar[1][1]}}</span></td>
+    <td><span class="date">{{calendar[1][2]}}</span></td>
+    <td><span class="date">{{calendar[1][3]}}</span></td>
+    <td><span class="date">{{calendar[1][4]}}</span></td>
+    <td><span class="date">{{calendar[1][5]}}</span></td>
+    <td><span class="date">{{calendar[1][6]}}</span></td>
+</tr>
+<tr>
+    <td><span class="date">{{calendar[2][0]}}</span></td>
+    <td><span class="date">{{calendar[2][1]}}</span></td>
+    <td><span class="date">{{calendar[2][2]}}</span></td>
+    <td><span class="date">{{calendar[2][3]}}</span></td>
+    <td><span class="date">{{calendar[2][4]}}</span></td>
+    <td><span class="date">{{calendar[2][5]}}</span></td>
+    <td><span class="date">{{calendar[2][6]}}</span></td>
+</tr>
+<tr>
+    <td><span class="date">{{calendar[3][0]}}</span></td>
+    <td><span class="date">{{calendar[3][1]}}</span></td>
+    <td><span class="date">{{calendar[3][2]}}</span></td>
+    <td><span class="date">{{calendar[3][3]}}</span></td>
+    <td><span class="date">{{calendar[3][4]}}</span></td>
+    <td><span class="date">{{calendar[3][5]}}</span></td>
+    <td><span class="date">{{calendar[3][6]}}</span></td>
+</tr>
+<tr>
+    <td><span class="date">{{calendar[4][0]}}</span></td>
+    <td><span class="date">{{calendar[4][1]}}</span></td>
+    <td><span class="date">{{calendar[4][2]}}</span></td>
+    <td><span class="date">{{calendar[4][3]}}</span></td>
+    <td><span class="date">{{calendar[4][4]}}</span></td>
+    <td><span class="date">{{calendar[4][5]}}</span></td>
+    <td><span class="date">{{calendar[4][6]}}</span></td>
+</tr>
+{% if calendar[5] != Null %}
+<tr>
+    <td><span class="date">{{calendar[5][0]}}</span></td>
+    <td><span class="date">{{calendar[5][1]}}</span></td>
+    <td><span class="date">{{calendar[5][2]}}</span></td>
+    <td><span class="date">{{calendar[5][3]}}</span></td>
+    <td><span class="date">{{calendar[5][4]}}</span></td>
+    <td><span class="date">{{calendar[5][5]}}</span></td>
+    <td><span class="date">{{calendar[5][6]}}</span></td>
+</tr>
+{% endif %}
+</table>
+
+{% endblock %}
