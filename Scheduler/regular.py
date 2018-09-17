@@ -16,6 +16,10 @@ regular = Blueprint('regular', __name__, template_folder='templates')
 
 @regular.route('/')
 def home():
+    return render_template('home.html')
+
+@regular.route('/calendar')
+def calendar():
     calendar = createCalendar()
     month = monthString(datetime.now().month)
     return render_template('calendar.html', calendar=calendar, month=month, year=datetime.now().year, next=str(datetime.now().month + 1), prev=str(datetime.now().month - 1))
