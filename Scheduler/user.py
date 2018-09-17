@@ -6,8 +6,8 @@ import datetime
 import calendar
 import sys
 
-def create_user(first, last, grade, email, password):
-    newuser = User(first, last, grade, email, password)
+def create_user(first, last, grade, email, password, tutor):
+    newuser = User(first, last, grade, email, password, tutor)
     db.session.add(newuser)
     db.session.commit()
     return newuser

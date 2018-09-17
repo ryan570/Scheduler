@@ -14,13 +14,15 @@ class User(db.Model):
     grade = db.Column(db.Integer)
     pw_hash = db.Column(db.String(500))
     salt = db.Column(db.String(100))
+    tutor = db.Column(db.Boolean)
 
-    def __init__(self, firstname, lastname, grade, email, password):
+    def __init__(self, firstname, lastname, grade, email, password, tutor):
         self.firstname = firstname.title()
         self.lastname = lastname.title()
         self.email = email.lower()
         self.grade = grade
         self.pw_hash = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+        self.tutor = tutor
 
     def is_active(self):
         return True

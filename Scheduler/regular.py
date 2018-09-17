@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, flash, session, redirect, url_for, Blueprint, request, jsonify
 from sqlalchemy.sql import func
-from Scheduler.forms import RegisterForm, SigninForm, AnnouncementForm
+from Scheduler.forms import RegisterForm, SigninForm, AnnouncementForm, EventForm
 from Scheduler.model import db, User, Announcement
 from Scheduler.user import create_user
 from Scheduler.announcement import create_announcement
@@ -14,9 +14,14 @@ import os
 
 regular = Blueprint('regular', __name__, template_folder='templates')
 
-@regular.route('/')
+@regular.route('/', methods=['POST', 'GET'])
 def home():
-    return render_template('home.html')
+    form = EventForm(request.form) 
+    if form.validate_on_submit():
+        print(request.form['datefield'])
+        return render_template('home.html')
+    else:
+        return render_template('add_event.html', form=form)
 
 @regular.route('/calendar')
 def calendar():
@@ -56,10 +61,16 @@ def register():
                 flash('That email is already linked to an account', 'danger')
                 return redirect(url_for('regular.register'))
             else:
-                user = create_user(form.firstname.data, form.lastname.data, form.grade.data, form.email.data, form.password.data)
+                if form.tutor.data == 1:
+                    tutor = True
+                else:
+                    tutor = False
+                user = create_user(form.firstname.data, form.lastname.data, form.grade.data, form.email.data, form.password.data, form.tutor.data)
                 login_user(user,remember=True)
                 session['logged_in'] = True
                 session['username'] = form.firstname.data + " " + form.lastname.data
+                if user.is_admin():
+                    session['admin'] = True
                 return render_template('home.html')
         else:
             flash('Passwords do not match.', 'danger')
