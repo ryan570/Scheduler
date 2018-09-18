@@ -60,3 +60,20 @@ class Announcement(db.Model):
         self.author = author.title()
         self.body = body
         self.create_date = date.today().strftime("%m-%d-%y")
+    
+class TutoringSession(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    date = db.Column(db.String(10))
+    user = db.Column(db.Integer)
+    tutor = db.Column(db.Integer)
+    subject = db.Column(db.String(50))
+    comments = db.Column(db.Text)
+
+    def __init__(self, date, subject, comments, user):
+        self.date = date
+        self.subject = subject.title()
+        self.comments = comments
+        self.user = user
+
+    def setTutor(self, tutor):
+        self.tutor = tutor

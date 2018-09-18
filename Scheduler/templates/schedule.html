@@ -1,0 +1,27 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+    <h1>Your Tutoring Sessions</h1>
+    <a class="btn btn-success" href="/add_session">Request a Tutoring Session</a>
+    <hr>
+    <table class="table table-striped">
+        <tr>
+            <th>Date</th>
+            <th>Tutor</th>
+            <th>Subject</th>
+            <th>Comments</th>
+            <th></th>
+            <th></th>
+        </tr>
+            {% for tutoringSession in sessions %}
+            <tr>
+                <td>{{tutoringSession.date}}</td>
+                <td>{{tutoringSession.tutor}}</td>
+                <td>{{tutoringSession.subject}}</td>
+                <td>{{tutoringSession.comments}}</td>
+                <td><a href="edit_session/{{tutoringSession.id}}" class="btn btn-default pull-right">Edit</a></td>
+                <td><a href="delete_session/{{tutoringSession.id}}" class="btn btn-danger pull-right">Delete</a></td>
+            </tr>
+            {% endfor %}
+    </table>
+{% endblock %}

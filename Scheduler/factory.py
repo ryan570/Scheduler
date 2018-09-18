@@ -10,8 +10,10 @@ def create_app(config_object, register_blueprint=True):
     if register_blueprint:
         from Scheduler.regular import regular
         from Scheduler.announcement import announcement
+        from Scheduler.schedule import schedule
         app.register_blueprint(regular)
         app.register_blueprint(announcement)
+        app.register_blueprint(schedule)
 
 def extensions():
     login_manager.init_app(app)

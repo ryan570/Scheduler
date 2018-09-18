@@ -16,34 +16,7 @@ regular = Blueprint('regular', __name__, template_folder='templates')
 
 @regular.route('/', methods=['POST', 'GET'])
 def home():
-    form = EventForm(request.form) 
-    if form.validate_on_submit():
-        print(request.form['datefield'])
-        return render_template('home.html')
-    else:
-        return render_template('add_event.html', form=form)
-
-@regular.route('/calendar')
-def calendar():
-    calendar = createCalendar()
-    month = monthString(datetime.now().month)
-    return render_template('calendar.html', calendar=calendar, month=month, year=datetime.now().year, next=str(datetime.now().month + 1), prev=str(datetime.now().month - 1))
-
-@regular.route('/month/<month>/')
-def specificMonth(month):
-    year = datetime.now().year
-    month = int(month)
-    next = month + 1
-    prev = month - 1
-    while month > 12:
-        month -= 12
-        year += 1
-    while month < 1:
-        month += 12
-        year -= 1
-    calendar = customMonth(month, year)
-    monthName = monthString(month)
-    return render_template('calendar.html', calendar=calendar, month=monthName, year=year, next=next, prev=prev)
+    return render_template('home.html')
 
 @regular.route('/about')
 def about():
