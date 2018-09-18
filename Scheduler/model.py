@@ -38,6 +38,12 @@ class User(db.Model):
             return unicode(self.id)  # python 2
         except NameError:
             return str(self.id)  # python 3
+        
+    def is_tutor(self):
+        if self.tutor == 1:
+            return True
+        else:
+            return False
 
     def check_password(self, password):
         return bcrypt.checkpw(password.encode('utf-8'), self.pw_hash.encode('utf-8'))

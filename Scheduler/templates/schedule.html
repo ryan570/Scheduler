@@ -2,18 +2,29 @@
 
 {% block body %}
     <h1>Your Tutoring Sessions</h1>
-    <a class="btn btn-success" href="/add_session">Request a Tutoring Session</a>
-    <hr>
     <table class="table table-striped">
+        
+        {% if current_user.is_tutor() %}
         <tr>
             <th>Date</th>
-            <th>Tutor</th>
+            <th>Student</th>
             <th>Subject</th>
             <th>Comments</th>
             <th></th>
             <th></th>
         </tr>
+        {% else %}
             {% for tutoringSession in sessions %}
+            <a class="btn btn-success" href="/add_session">Request a Tutoring Session</a>
+            <hr>
+            <tr>
+                <th>Date</th>
+                <th>Tutor</th>
+                <th>Subject</th>
+                <th>Comments</th>
+                <th></th>
+                <th></th>
+            </tr>
             <tr>
                 <td>{{tutoringSession.date}}</td>
                 <td>{{tutoringSession.tutor}}</td>
@@ -23,5 +34,6 @@
                 <td><a href="delete_session/{{tutoringSession.id}}" class="btn btn-danger pull-right">Delete</a></td>
             </tr>
             {% endfor %}
+        {% endif %}
     </table>
 {% endblock %}
