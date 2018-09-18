@@ -22,5 +22,5 @@ class AnnouncementForm(FlaskForm):
     body = TextAreaField('Body', [InputRequired("Please Enter a Body")])
 
 class EventForm(FlaskForm):
-    subject = SelectField('Subject', [InputRequired("Please Select the Subject")], choices=[('math', 'Math'), ('history', 'History'), ('science', 'Science')])
+    subject = SelectField('Subject', [InputRequired("Please Select the Subject")], choices=[('math', 'Math'), ('history', 'History'), ('science', 'Science')], coerce=str)
     comments = TextAreaField('Comments', [InputRequired("Please describe what you need help in.")])
