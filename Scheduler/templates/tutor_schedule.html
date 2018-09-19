@@ -1,0 +1,50 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<h1>Your Tutoring Sessions</h1>
+    <hr>
+    <table class="table table-striped table-hover">
+        <tr>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Student</th>
+            <th>Subject</th>
+            <th>Comments</th>
+            <th></th>
+        </tr>
+        {% for session in tutoringSessions %}
+        <tr>
+            <td>{{session.date}}</td>
+            <td>{{session.time}}</td>
+            <td>{{session.student_name()}}</td>
+            <td>{{session.subject}}</td>
+            <td>{{session.comments}}</td>
+            <td><a href="/cancel_session/{{session.id}}/" class="btn btn-danger pull-right">Cancel Session</a></td>
+        </tr>
+        {% endfor %}
+        </table>
+<h1>Available Tutoring Sessions</h1>
+<hr>
+<table class="table table-striped table-hover">
+        <tr>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Student</th>
+            <th>Subject</th>
+            <th>Comments</th>
+            <th></th>
+        </tr>
+        {% for session in availableSessions %}
+        <tr>
+            <td>{{session.date}}</td>
+            <td>{{session.time}}</td>
+            <td>{{session.student_name()}}</td>
+            <td>{{session.subject}}</td>
+            <td>{{session.comments}}</td>
+            <td><a href="/accept_session/{{session.id}}/" class="btn btn-success pull-right">Accept Session</a></td>
+        </tr>
+        {% endfor %}
+        </table>
+    
+
+{% endblock %}

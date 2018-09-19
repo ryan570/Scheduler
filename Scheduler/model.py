@@ -74,12 +74,15 @@ class TutoringSession(db.Model):
     tutor = db.Column(db.Integer)
     subject = db.Column(db.String(50))
     comments = db.Column(db.Text)
+    time = db.Column(db.String(20))
 
-    def __init__(self, date, subject, comments, user):
+    def __init__(self, date, subject, comments, user, time):
         self.date = date
         self.subject = subject.title()
         self.comments = comments
         self.user = user
+        self.time = time
 
-    def setTutor(self, tutor):
-        self.tutor = tutor
+    def student_name(self):
+        student = User.query.filter_by(id=self.user).first()
+        return student.firstname + ' ' + student.lastname
