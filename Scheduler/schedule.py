@@ -31,14 +31,32 @@ def format_time(time):
         ending = ' p.m.'
         formattedTime = str(h) + time[2:] + ending
     else :
+        time = time[1:]
         formattedTime = time + ' a.m.'
     return formattedTime
+
+def reverse_time_format(time):
+    if len(time) == 9:
+        time = '0' + time
+    h = time[:2]
+    m = time[3:5]    
+    if time[6:] == 'p.m.':
+        h = int(h) + 12
+        return str(h) + ':' + str(m)
+    else:
+        return str(h) + ':' + str(m)
 
 def format_date(date):
     m = date[5:7]
     d = date[8:10]
     y = date[:4]
     return m + '-' + d + '-' + y
+
+def reverse_date_format(date):
+    m = date[:2]
+    d = date[3:5]
+    y = date[6:]
+    return y + '-' + m + '-' + d
 
 @schedule.route('/schedulePage')
 @login_required
@@ -85,7 +103,8 @@ def editSession(id):
     tutorSession = TutoringSession.query.filter_by(id=id).first()
     form = EventForm(subject=tutorSession.subject.lower())
     form.comments.data = tutorSession.comments
-    date = tutorSession.date
+    date = reverse_date_format(tutorSession.date)
+    time = reverse_time_format(tutorSession.time)
     if form.validate_on_submit():
         delete_session(id)
         subject = request.form['subject']
@@ -95,7 +114,7 @@ def editSession(id):
         create_session(formattedDate, subject, comment, current_user.get_id(), formattedTime)
         flash ('Session Edited!', 'success')
         return redirect(url_for('schedule.schedulePage'))
-    return render_template('edit_session.html', form=form, date=date)
+    return render_template('edit_session.html', form=form, date=date, time=time)
 
 @schedule.route('/delete_session/<id>/')
 @login_required

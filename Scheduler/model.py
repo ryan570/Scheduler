@@ -89,4 +89,7 @@ class TutoringSession(db.Model):
 
     def tutor_name(self):
         tutor = User.query.filter_by(id=self.tutor).first()
-        return tutor.firstname + ' ' + tutor.lastname
+        if tutor:
+            return tutor.firstname + ' ' + tutor.lastname
+        else:
+            return None
