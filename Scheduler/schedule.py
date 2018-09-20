@@ -4,7 +4,7 @@ from Scheduler.forms import RegisterForm, SigninForm, AnnouncementForm, EventFor
 from Scheduler.model import db, User, Announcement, TutoringSession
 from Scheduler.user import create_user
 from Scheduler.announcement import create_announcement
-from Scheduler.decorators import admin_required
+from Scheduler.decorators import admin_required, tutor_required
 from Scheduler.calendargenerator import createCalendar, monthString, customMonth
 from flask_login import login_required, login_user, logout_user, current_user
 from datetime import datetime
@@ -64,7 +64,7 @@ def addSession():
     return render_template('add_session.html', form=form)
 
 @schedule.route('/accept_session/<id>/', methods=['POST', 'GET'])
-@login_required
+@tutor_required
 def accept_session(id):
     tutorSession = TutoringSession.query.filter_by(id=id).first()
     tutorSession.tutor = current_user.get_id()
@@ -72,7 +72,7 @@ def accept_session(id):
     return redirect(url_for('schedule.schedulePage'))
 
 @schedule.route('/cancel_session/<id>/')
-@login_required
+@tutor_required
 def cancel_session(id):
     tutorSession = TutoringSession.query.filter_by(id=id).first()
     tutorSession.tutor = None
