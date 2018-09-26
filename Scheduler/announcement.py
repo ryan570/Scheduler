@@ -24,6 +24,7 @@ def delete_announcement(id):
 
 @announcement.route('/announcements')
 def announcements():
+    session['month'] = None
     announcements = Announcement.query.all()
     list.reverse(announcements)
     if len(announcements) > 0:

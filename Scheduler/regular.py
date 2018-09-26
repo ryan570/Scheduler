@@ -16,6 +16,7 @@ regular = Blueprint('regular', __name__, template_folder='templates')
 
 @regular.route('/', methods=['POST', 'GET'])
 def home():
+    session['month'] = None
     return render_template('home.html')
 
 @regular.route('/about')
@@ -84,6 +85,7 @@ def logout():
 @regular.route('/dashboard')
 @admin_required
 def dashboard():
+    session['month'] = None
     announcements = Announcement.query.all()
     list.reverse(announcements)
     if len(announcements) > 0:

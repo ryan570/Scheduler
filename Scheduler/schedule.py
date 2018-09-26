@@ -58,9 +58,25 @@ def reverse_date_format(date):
     y = date[6:]
     return y + '-' + m + '-' + d
 
+def render_calendar(month):
+    year = datetime.now().year
+    month = int(month)
+    next = month + 1
+    prev = month - 1
+    while month > 12:
+        month -= 12
+        year += 1
+    while month < 1:
+        month += 12
+        year -= 1
+    calendar = customMonth(month, year)
+    monthName = monthString(month)
+    return render_template('calendar.html', calendar=calendar, month=monthName, year=year, next=next, prev=prev)
+
 @schedule.route('/schedulePage')
 @login_required
 def schedulePage():
+    session['month'] = None
     if current_user.is_tutor():
         availableSessions = TutoringSession.query.filter_by(tutor=None).all()
         tutoringSessions = TutoringSession.query.filter_by(tutor=current_user.get_id()).all()
@@ -127,23 +143,17 @@ def delete(id):
 @schedule.route('/calendar')
 @login_required
 def calendar():
-    calendar = createCalendar()
-    month = monthString(datetime.now().month)
-    return render_template('calendar.html', calendar=calendar, month=month, year=datetime.now().year, next=str(datetime.now().month + 1), prev=str(datetime.now().month - 1))
+    if session.get('month') is None:
+        calendar = createCalendar()
+        month = monthString(datetime.now().month)
+        return render_template('calendar.html', calendar=calendar, month=month, year=datetime.now().year, next=str(datetime.now().month + 1), prev=str(datetime.now().month - 1))
+    else:
+        month = session.get('month')
+        session['month'] = None
+        return render_calendar(month)
 
 @schedule.route('/month/<month>/')
 @login_required
 def specificMonth(month):
-    year = datetime.now().year
-    month = int(month)
-    next = month + 1
-    prev = month - 1
-    while month > 12:
-        month -= 12
-        year += 1
-    while month < 1:
-        month += 12
-        year -= 1
-    calendar = customMonth(month, year)
-    monthName = monthString(month)
-    return render_template('calendar.html', calendar=calendar, month=monthName, year=year, next=next, prev=prev)
+    session['month'] = month
+    return redirect(url_for('schedule.calendar'))
