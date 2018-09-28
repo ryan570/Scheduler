@@ -61,7 +61,7 @@ def reverse_date_format(date):
 def update_sessions(date):
     sessions = TutoringSession.query.all()
     for session in sessions:
-        if datetime.strptime(reverse_date_format(session.date), '%Y-%m-%d') < date:
+        if datetime.strptime(reverse_date_format(session.date) + reverse_time_format(session.time), '%Y-%m-%d%H:%M') < date:
             db.session.delete(session)
     db.session.commit()
 
@@ -96,13 +96,14 @@ def schedulePage():
 @login_required
 def addSession():
     form = EventForm(request.form)
+    time = str(datetime.now().time())
     if form.validate_on_submit():
         formattedTime = format_time(request.form['timefield'])
         formattedDate = format_date(request.form['datefield'])
         create_session(formattedDate, form.subject.data, form.comments.data, current_user.get_id(), formattedTime)
         flash('Session Requested!', 'success')
         return redirect(url_for('schedule.schedulePage'))
-    return render_template('add_session.html', form=form)
+    return render_template('add_session.html', form=form, time=time[:5])
 
 @schedule.route('/accept_session/<id>/', methods=['POST', 'GET'])
 @tutor_required
