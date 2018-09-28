@@ -58,6 +58,13 @@ def reverse_date_format(date):
     y = date[6:]
     return y + '-' + m + '-' + d
 
+def update_sessions(date):
+    sessions = TutoringSession.query.all()
+    for session in sessions:
+        if datetime.strptime(reverse_date_format(session.date), '%Y-%m-%d') < date:
+            db.session.delete(session)
+    db.session.commit()
+
 def render_calendar(month):
     year = datetime.now().year
     month = int(month)
@@ -76,7 +83,7 @@ def render_calendar(month):
 @schedule.route('/schedulePage')
 @login_required
 def schedulePage():
-    session['month'] = None
+    update_sessions(datetime.today())
     if current_user.is_tutor():
         availableSessions = TutoringSession.query.filter_by(tutor=None).all()
         tutoringSessions = TutoringSession.query.filter_by(tutor=current_user.get_id()).all()
