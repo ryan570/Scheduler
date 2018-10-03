@@ -15,6 +15,7 @@ class User(db.Model):
     pw_hash = db.Column(db.String(500))
     salt = db.Column(db.String(100))
     tutor = db.Column(db.Boolean)
+    confirmed = db.Column(db.Boolean, default=False)
 
     def __init__(self, firstname, lastname, grade, email, password, tutor):
         self.firstname = firstname.title()
