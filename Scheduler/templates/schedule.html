@@ -2,19 +2,21 @@
 
 {% block body %}
     
-    <table class="table table-striped table-hover">
+    <table class="table table-hover">
         <h1>Your Tutoring Sessions</h1>
         <a class="btn btn-success" href="/add_session">Request a Tutoring Session</a>
             <hr>
+            <thead class="thead-light">
             <tr>
-                <th>Date</th>
-                <th>Time</th>
-                <th>Tutor</th>
-                <th>Subject</th>
-                <th>Comments</th>
-                <th></th>
-                <th></th>
+                <th scope="col">Date</th>
+                <th scope="col">Time</th>
+                <th scope="col">Tutor</th>
+                <th scope="col">Subject</th>
+                <th scope="col">Comments</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
             </tr>
+            </thead>    
             {% for tutoringSession in sessions %}
             <tr>
                 <td>{{tutoringSession.date}}</td>
@@ -22,8 +24,8 @@
                 <td>{{tutoringSession.tutor_name()}}</td>
                 <td>{{tutoringSession.subject}}</td>
                 <td>{{tutoringSession.comments}}</td>
-                <td><a href="edit_session/{{tutoringSession.id}}" class="btn btn-default pull-right">Edit</a></td>
-                <td><a href="delete_session/{{tutoringSession.id}}" class="btn btn-danger pull-right">Delete</a></td>
+                <td><a href="edit_session/{{tutoringSession.id}}" class="btn btn-warning float-right">Edit</a></td>
+                <td><a href="delete_session/{{tutoringSession.id}}" class="btn btn-danger float-right">Delete</a></td>
             </tr>
             {% endfor %}
     </table>

@@ -3,19 +3,19 @@
 {% block body %}
 <link rel="stylesheet" href="/static/style.css">
 <a href="/month/{{prev}}/" class="previous">&laquo; Previous</a>
-<a href="/month/{{next}}" class="next pull-right">Next &raquo;</a>
+<a href="/month/{{next}}" class="next float-right">Next &raquo;</a>
 <div class="title">{{month}} {{year}}</div>
-<table border="1">
-<tr><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr>
+<table border=1>
+<tr><th class="header">Sun</th><th class="header">Mon</th><th class="header">Tue</th><th class="header">Wed</th><th class="header">Thu</th><th class="header">Fri</th><th class="header">Sat</th></tr>
 {% for week in calendar %}
 <tr>
-    <td><span class="date">{{week[0]}}</span></td>
-    <td><span class="date">{{week[1]}}</span></td>
-    <td><span class="date">{{week[2]}}</span></td>
-    <td><span class="date">{{week[3]}}</span></td>
-    <td><span class="date">{{week[4]}}</span></td>
-    <td><span class="date">{{week[5]}}</span></td>
-    <td><span class="date">{{week[6]}}</span></td>
+    <td class="day"><span class="date">{{week[0]}}</span></td>
+    <td class="day"><span class="date">{{week[1]}}</span></td>
+    <td class="day"><span class="date">{{week[2]}}</span></td>
+    <td class="day"><span class="date">{{week[3]}}</span></td>
+    <td class="day"><span class="date">{{week[4]}}</span></td>
+    <td class="day"><span class="date">{{week[5]}}</span></td>
+    <td class="day"><span class="date">{{week[6]}}</span></td>
 </tr>
 {% endfor %}
 </table>

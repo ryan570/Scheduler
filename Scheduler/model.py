@@ -50,7 +50,7 @@ class User(db.Model):
         return bcrypt.checkpw(password.encode('utf-8'), self.pw_hash.encode('utf-8'))
 
     def is_admin(self):
-        if self.email in ['test@test.com', 'hello@gmail.com', 'admin@admin.com']:
+        if self.email in ['brownrm1@guilford.edu', 'cookkl@guilford.edu']:
             return True
         else:
             return False

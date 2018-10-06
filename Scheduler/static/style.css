@@ -11,14 +11,14 @@ table {
     border-collapse: collapse;
     width: 100%;
     }
-th {
+th.header {
     padding: 0 0.5em;
     height: 50px;
     text-align: center;
     background-color:dodgerblue;
     color:black;
     }
-td  {     
+td.day  {     
     font-size: medium;
     padding: 0.25em 0.25em;   
     width: 14%; 
