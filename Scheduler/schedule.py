@@ -31,7 +31,7 @@ def format_time(time):
         ending = ' p.m.'
         formattedTime = str(h) + time[2:] + ending
     else :
-        time = time[1:]
+        time = time[0:]
         formattedTime = time + ' a.m.'
     return formattedTime
 
