@@ -26,9 +26,17 @@ def delete_session(id):
     db.session.commit()
 
 def format_time(time):
-    if int(time[:2]) > 12:
-        h = int(time[:2]) - 12
+    h = int(time[:2])
+    if h == 12:
         ending = ' p.m.'
+        formattedTime = str(h) + time[2:] + ending
+    elif h > 12:
+        h = h - 12
+        ending = ' p.m.'
+        formattedTime = str(h) + time[2:] + ending
+    elif h == 0:
+        ending = ' a.m.'
+        h += 12
         formattedTime = str(h) + time[2:] + ending
     else :
         time = time[0:]
@@ -40,11 +48,14 @@ def reverse_time_format(time):
         time = '0' + time
     h = time[:2]
     m = time[3:5]    
-    if time[6:] == 'p.m.':
-        h = int(h) + 12
-        return str(h) + ':' + str(m)
-    else:
-        return str(h) + ':' + str(m)
+    if time[-4:] == 'p.m.':
+        if h != str(12):
+            h = int(h) + 12
+    elif time[:2] == str(12):
+        h = int(h) - 12
+        h = str(h) + '0'
+
+    return str(h) + ':' + str(m)
 
 def format_date(date):
     m = date[5:7]
