@@ -80,16 +80,19 @@ def render_calendar(month):
     monthName = monthString(month)
     return render_template('calendar.html', calendar=calendar, month=monthName, year=year, next=next, prev=prev)
 
+def sort_sessions(sessions):
+    return sorted(sessions, key=lambda item: item.date)
+
 @schedule.route('/schedulePage')
 @login_required
 def schedulePage():
     update_sessions(datetime.today())
     if current_user.is_tutor():
-        availableSessions = TutoringSession.query.filter_by(tutor=None).all()
-        tutoringSessions = TutoringSession.query.filter_by(tutor=current_user.get_id()).all()
+        availableSessions = sort_sessions(TutoringSession.query.filter_by(tutor=None).all())
+        tutoringSessions = sort_sessions(TutoringSession.query.filter_by(tutor=current_user.get_id()).all())
         return render_template('tutor_schedule.html', availableSessions=availableSessions, tutoringSessions=tutoringSessions)
     else:
-        sessions = TutoringSession.query.filter_by(user=current_user.get_id()).all()
+        sessions = sort_sessions(TutoringSession.query.filter_by(user=current_user.get_id()).all())
         return render_template('schedule.html', sessions=sessions)
 
 @schedule.route('/add_session', methods=['POST', 'GET'])
