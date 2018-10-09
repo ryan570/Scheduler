@@ -29,7 +29,10 @@ class User(db.Model):
         return True
 
     def is_authenticated(self):
-        return True
+        if self.confirmed == 1:
+            return True
+        else:
+            return False
 
     def is_annonymous(self):
         return False

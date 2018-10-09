@@ -17,13 +17,12 @@ regular = Blueprint('regular', __name__, template_folder='templates')
 
 @regular.route('/', methods=['POST', 'GET'])
 def home():
-    user = current_user
-    testUser = User.query.filter_by(id=user.get_id()).first()
-    if testUser:
-        if not user.confirmed:
-            return redirect(url_for('regular.unconfirmed'))
+    if not current_user.is_authenticated() and session.get('logged_in') == True:
+        return redirect(url_for('regular.unconfirmed'))
+    else:
+        return render_template('home.html')
 
-    return render_template('home.html')
+    
 
 @regular.route('/about')
 def about():
