@@ -17,7 +17,7 @@ regular = Blueprint('regular', __name__, template_folder='templates')
 
 @regular.route('/', methods=['POST', 'GET'])
 def home():
-    if not current_user.is_authenticated() and session.get('logged_in') == True:
+    if not current_user.is_authenticated and session.get('logged_in') == True:
         return redirect(url_for('regular.unconfirmed'))
     else:
         return render_template('home.html')

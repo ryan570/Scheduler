@@ -5,8 +5,8 @@
     <h1>{{announcement.title}}</h1>
     <small>Created by {{announcement.author}} on {{announcement.create_date}}</small>
     <hr>
-    <div class="text-left">
+    <p>
         {{announcement.body | safe}}
-    </div>
+    </p>
 
 {% endblock %}
